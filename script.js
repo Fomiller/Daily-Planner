@@ -9,6 +9,30 @@ $(document).ready(function(){
 
 
 
+
+    
+   animals = [
+       ["cat", "dog", "pig"],
+       ["bird", "fish", "parrot"]
+    ];
+
+    animals2 = [
+        {house: ["cat", "dog", "pig"]},
+        {exotic: ["bird", "fish", "parrot"]},
+    ];
+
+    var animalLoop = function() {
+        for(var i = 0; i < animals.length; i++){
+            for(var k = 0; k < animals[i].length; k++)
+            console.log(animals[i][k]);
+        }
+    }
+    animalLoop();
+
+
+
+
+    
     var hours = [
         {
         "hour": "12AM", 
@@ -127,12 +151,20 @@ $(document).ready(function(){
                 var tdEl03 = $("<td>");
                 var inputEl = $("<input>");
                 var btnEl = $("<button>");
+                    // var eventDiv = $("<div>");
                 // give the hours to the 1st <td>
                 tdEl01.text(hours[globalVariable].hour);
                 // set the type for the input and give it placeholder text
-                inputEl.attr({"type":"text","placeholder":"Add an event"});
+                inputEl.attr({"type":"text","class":"event-input","placeholder":"Add an event"});
+                // give attributes to event div
+
+                    // eventDiv.attr("id","event-div-" + globalVariable)
+
                 // append the input as a child the the 2nd <td>
                 tdEl02.addClass("td2");
+
+                    // tdEl02.append(eventDiv);
+
                 tdEl02.append(inputEl);
                 // set attributes for the button
                 btnEl.text("Add").addClass("btn-block saveBtn");
@@ -158,9 +190,14 @@ $(document).ready(function(){
         },1000);
     }
 
-    var addEvent = function() {
-        // console.log($(this).parent().siblings($("td")).children($("input")).val())
-        var targetInput = $(this).parent().siblings($("td")).children($("input"));
+
+    // after testing i am convinced that on the first click of the add button it is targeting the correct input. But upon creation of the event, and the second click of the button the button targets the newely created and returns an empty value.
+    var addEvent = function(event) {
+        // event.preventDefault();
+
+        var targetInput = $(this).parent().siblings($("td")).children($("input:text"));
+        console.log($(this).parent().siblings($("td")).children($("input:text")));
+
 
         if (targetInput.val() === "") {
             alert("can not add blank event.")
@@ -169,9 +206,28 @@ $(document).ready(function(){
             eventEl.text(targetInput.val());
             eventEl.prependTo($(this).parent().siblings(".td2"));
             // targetInput.val("");
+            clearInputs();
         }
     }
-    
+
+
+    // add event function from first script.js file
+    // var addEvent = function(event) {
+    //     event.preventDefault();
+    //     console.log($(this).parent().siblings($(".td2")).children($("event-input")).val())
+    //     console.log($(this).parent().siblings($(".td2")).children($("event-input")).text())
+    //     var targetInput = $(this).parent().siblings($(".td2")).children($(".event-input"));
+
+    //     if (targetInput.val() === "") {
+    //         alert("can not add blank event.")
+    //     } else {
+    //         var eventEl = $("<h5>");
+    //         eventEl.text(targetInput.val());
+    //         eventEl.prependTo($(this).parent().siblings(".td2"));
+    //         targetInput.val("");
+    //     }
+    // }
+    // OLD CODEOLD CODEOLD CODEOLD CODEOLD CODEOLD CODEOLD CODE
     // if ($("#get").val() === "") {
     //     alert("Can not add blank event. ")
     // } else { 
@@ -205,6 +261,10 @@ $(document).ready(function(){
     }
     
 
+    var clearInputs = function() {
+        $("input:text").val("");
+    }
+
     // OLD ROWCOLOR STUFF
     // if(parseInt($("tr").data().hour) === parseInt(moment().format('h'))) {
     //     $("tr").addClass("table-success");
@@ -222,6 +282,16 @@ $(document).ready(function(){
     // console.log(hours[0] === moment().format('h'))
     // console.log(hours[0] > moment().format('h'))
     // console.log(hours[0] < moment().format('h'))
+
+    // LOCAL STORAGE
+
+    
+
+
+
+
+
+
 
     createTable();
 
