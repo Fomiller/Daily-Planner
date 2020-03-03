@@ -10,7 +10,7 @@ $(document).ready(function(){
 
 
 
-    
+
    animals = [
        ["cat", "dog", "pig"],
        ["bird", "fish", "parrot"]
@@ -28,6 +28,27 @@ $(document).ready(function(){
         }
     }
     animalLoop();
+
+    var storeEvents = function() {
+        event.preventDefault();
+        oldEvents = JSON.parse(localStorage.getItem('session')) || [];
+        localStorage.setItem("events", JSON.stringify(allEvents))
+
+        var allEvents = [];
+        var rowEvents = [];
+
+        var row = $("tr");
+        // var h5Elements = 
+
+        row.each(function() {
+            $(this).children().children("h5").each(function(){
+                rowEvents.push($(this).text());
+                console.log($(this))
+            })
+            allEvents.push(rowEvents);
+        })
+        console.log(allEvents)
+    };
 
 
 
@@ -300,5 +321,6 @@ $(document).ready(function(){
     updateTime();
     
     $(".saveBtn").on("click", addEvent);
+    $("#test").on("click", storeEvents);
 // END DOCUMENT READY...
 });
