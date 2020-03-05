@@ -179,8 +179,16 @@ $(document).ready(function(){
                 if (eventArray.length !== 0){
                     eventArray.forEach(function(element){
                         var h5El = $("<h5>");
-                                                
+                        // add paragraph element
+                        // give paragraph element text of remove
+                        // add class to paragraph element maybe give
+                        // set style for pargraph element for display: "inline block", and color: "red"
+                        // create a hover class in style.css that has a underline/something animation so it is clearly clickable.
+                        // set h5 element to have a style of display: "inline block" and a padding right of 1em
+
+                        
                         h5El.text(element);
+                        // append the paragraph remove button to the h5 element.
                         tdEl02.prepend(h5El);
                     })
                 }
