@@ -11,23 +11,23 @@ $(document).ready(function(){
 
 
 
-   animals = [
-       ["cat", "dog", "pig"],
-       ["bird", "fish", "parrot"]
-    ];
+//    animals = [
+//        ["cat", "dog", "pig"],
+//        ["bird", "fish", "parrot"]
+//     ];
 
-    animals2 = [
-        {house: ["cat", "dog", "pig"]},
-        {exotic: ["bird", "fish", "parrot"]},
-    ];
+//     animals2 = [
+//         {house: ["cat", "dog", "pig"]},
+//         {exotic: ["bird", "fish", "parrot"]},
+//     ];
 
-    var animalLoop = function() {
-        for(var i = 0; i < animals.length; i++){
-            for(var k = 0; k < animals[i].length; k++)
-            console.log(animals[i][k]);
-        }
-    }
-    animalLoop();
+//     var animalLoop = function() {
+//         for(var i = 0; i < animals.length; i++){
+//             for(var k = 0; k < animals[i].length; k++)
+//             console.log(animals[i][k]);
+//         }
+//     }
+//     animalLoop();
 
     var storeEvents = function() {
         event.preventDefault();
@@ -216,8 +216,9 @@ $(document).ready(function(){
     var addEvent = function(event) {
         // event.preventDefault();
 
-        var targetInput = $(this).parent().siblings($("td")).children($("input:text"));
-        console.log($(this).parent().siblings($("td")).children($("input:text")));
+        var targetInput = $(this).parent().siblings($(".td2")).children().last();
+        console.log($(this).parent().siblings($(".td2")).children().last());
+        console.log($(this).parent().siblings($(".td2")).children().last().val());
 
 
         if (targetInput.val() === "") {
