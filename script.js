@@ -8,150 +8,143 @@ $(document).ready(function(){
     $("#currentTime").text(time);
 
 
-
-
-
-//    animals = [
-//        ["cat", "dog", "pig"],
-//        ["bird", "fish", "parrot"]
-//     ];
-
-//     animals2 = [
-//         {house: ["cat", "dog", "pig"]},
-//         {exotic: ["bird", "fish", "parrot"]},
-//     ];
-
-//     var animalLoop = function() {
-//         for(var i = 0; i < animals.length; i++){
-//             for(var k = 0; k < animals[i].length; k++)
-//             console.log(animals[i][k]);
-//         }
-//     }
-//     animalLoop();
-
-    var storeEvents = function() {
-        event.preventDefault();
-        oldEvents = JSON.parse(localStorage.getItem('session')) || [];
-        localStorage.setItem("events", JSON.stringify(allEvents))
-
-        var allEvents = [];
-        var rowEvents = [];
-
-        var row = $("tr");
-        // var h5Elements = 
-
-        row.each(function() {
-            $(this).children().children("h5").each(function(){
-                rowEvents.push($(this).text());
-                console.log($(this))
-            })
-            allEvents.push(rowEvents);
-        })
-        console.log(allEvents)
-    };
-
-
-
-
-    
     var hours = [
         {
         "hour": "12AM", 
-        "data": "0", 
+        "data": "0",
+        "events": []
         },
         {
         "hour": "1AM", 
         "data": "1", 
+        "events": [],
         },
         {
         "hour": "2AM", 
         "data": "2", 
+        "events": [],
         },
         {
         "hour": "3AM", 
         "data": "3", 
+        "events": [],
         },
         {
         "hour": "4AM", 
         "data": "4", 
+        "events": [],
         },
         {
         "hour": "5AM", 
         "data": "5", 
+        "events": [],
         },
         {
         "hour": "6AM", 
         "data": "6", 
+        "events": [],
         },
         {
         "hour": "7AM", 
         "data": "7", 
+        "events": [],
         },
         {
         "hour": "8AM", 
         "data": "8", 
+        "events": [],
         },
         {
         "hour": "9AM", 
         "data": "9", 
+        "events": [],
         },
         {
         "hour": "10AM", 
-        "data": "10", 
+        "data": "10",
+        "events": [], 
         },
         {
         "hour": "11AM", 
-        "data": "11", 
+        "data": "11",
+        "events": [], 
         },
         {
         "hour": "12PM", 
-        "data": "12", 
+        "data": "12",
+        "events": [], 
         },
         {
         "hour": "1PM", 
-        "data": "13", 
+        "data": "13",
+        "events": [], 
         },
         {
         "hour": "2PM", 
-        "data": "14", 
+        "data": "14",
+        "events": [], 
         },
         {
         "hour": "3PM", 
-        "data": "15", 
+        "data": "15",
+        "events": [], 
         },
         {
         "hour": "4PM", 
-        "data": "16", 
+        "data": "16",
+        "events": [], 
         },
         {
         "hour": "5PM", 
-        "data": "17", 
+        "data": "17",
+        "events": [], 
         },
         {
         "hour": "6PM", 
-        "data": "18", 
+        "data": "18",
+        "events": [], 
         },
         {
         "hour": "7PM", 
-        "data": "19", 
+        "data": "19",
+        "events": [], 
         },
         {
         "hour": "8PM", 
-        "data": "20", 
+        "data": "20",
+        "events": [], 
         },
         {
         "hour": "9PM", 
-        "data": "21", 
+        "data": "21",
+        "events": [], 
         },
         {
         "hour": "10PM", 
-        "data": "22", 
+        "data": "22",
+        "events": [], 
         },
         {
         "hour": "11PM", 
-        "data": "23", 
+        "data": "23",
+        "events": [], 
         },
     ];
+
+    if   (JSON.parse(localStorage.getItem("events")) !== null){
+        hours = JSON.parse(localStorage.getItem("events"))
+    }
+
+
+    var storeEvents = function() {
+        event.preventDefault();
+
+        oldEvents = JSON.parse(localStorage.getItem('session')) || [];
+        localStorage.setItem("events", JSON.stringify(hours))
+
+        JSON.parse(localStorage.getItem("events"))
+
+    };
 
     var createTable = function() {
         // creates <table> element and <tbody> element
@@ -172,6 +165,7 @@ $(document).ready(function(){
                 var tdEl03 = $("<td>");
                 var inputEl = $("<input>");
                 var btnEl = $("<button>");
+                var eventArray = hours[globalVariable].events
                     // var eventDiv = $("<div>");
                 // give the hours to the 1st <td>
                 tdEl01.text(hours[globalVariable].hour);
@@ -179,11 +173,17 @@ $(document).ready(function(){
                 inputEl.attr({"type":"text","class":"event-input","placeholder":"Add an event"});
                 // give attributes to event div
 
-                    // eventDiv.attr("id","event-div-" + globalVariable)
-
                 // append the input as a child the the 2nd <td>
                 tdEl02.addClass("td2");
-
+                // conditional that checks if the event array in the hours obj is not empty and if it is not then it auto creates an h5 that will be filled with strings values.
+                if (eventArray.length !== 0){
+                    eventArray.forEach(function(element){
+                        var h5El = $("<h5>");
+                                                
+                        h5El.text(element);
+                        tdEl02.append(h5El);
+                    })
+                }
                     // tdEl02.append(eventDiv);
 
                 tdEl02.append(inputEl);
@@ -214,12 +214,11 @@ $(document).ready(function(){
 
     // after testing i am convinced that on the first click of the add button it is targeting the correct input. But upon creation of the event, and the second click of the button the button targets the newely created and returns an empty value.
     var addEvent = function(event) {
-        // event.preventDefault();
 
         var targetInput = $(this).parent().siblings($(".td2")).children().last();
-        console.log($(this).parent().siblings($(".td2")).children().last());
-        console.log($(this).parent().siblings($(".td2")).children().last().val());
-
+        var targetHourRow = $(this).parent().parent("tr");
+        var targetHourRowIdentifier = targetHourRow.data("time")
+        console.log(targetHourRowIdentifier)
 
         if (targetInput.val() === "") {
             alert("can not add blank event.")
@@ -227,39 +226,11 @@ $(document).ready(function(){
             var eventEl = $("<h5>");
             eventEl.text(targetInput.val());
             eventEl.prependTo($(this).parent().siblings(".td2"));
-            // targetInput.val("");
+            hours[targetHourRowIdentifier].events.push(targetInput.val());
+
             clearInputs();
         }
     }
-
-
-    // add event function from first script.js file
-    // var addEvent = function(event) {
-    //     event.preventDefault();
-    //     console.log($(this).parent().siblings($(".td2")).children($("event-input")).val())
-    //     console.log($(this).parent().siblings($(".td2")).children($("event-input")).text())
-    //     var targetInput = $(this).parent().siblings($(".td2")).children($(".event-input"));
-
-    //     if (targetInput.val() === "") {
-    //         alert("can not add blank event.")
-    //     } else {
-    //         var eventEl = $("<h5>");
-    //         eventEl.text(targetInput.val());
-    //         eventEl.prependTo($(this).parent().siblings(".td2"));
-    //         targetInput.val("");
-    //     }
-    // }
-    // OLD CODEOLD CODEOLD CODEOLD CODEOLD CODEOLD CODEOLD CODE
-    // if ($("#get").val() === "") {
-    //     alert("Can not add blank event. ")
-    // } else { 
-    //     var tdEl = $("<h5>");
-    //     console.log($("#get").val())
-
-    //     tdEl.text($("#get").val());
-    //     tdEl.prependTo($("#td-events"));
-    //     $("#get").val("");
-    // }
 
     var rowColor = function() {
         $("tr").each(function() {
@@ -287,41 +258,15 @@ $(document).ready(function(){
         $("input:text").val("");
     }
 
-    // OLD ROWCOLOR STUFF
-    // if(parseInt($("tr").data().hour) === parseInt(moment().format('h'))) {
-    //     $("tr").addClass("table-success");
-    // } else {
-    //     $("tr").addClass("table-warning");
-    // }
-    
-    
-    // console.log(parseInt($("tr").data().hour) === parseInt(moment().format('h')))
-    
-    // console.log($("#test").data().hour);
-    // console.log(parseInt($("#test").data().hour) == moment().format('h'))
-    // console.log(parseInt($("#test").data().hour) == moment().format('h'))
-    // console.log(parseInt(moment().format('h')));
-    // console.log(hours[0] === moment().format('h'))
-    // console.log(hours[0] > moment().format('h'))
-    // console.log(hours[0] < moment().format('h'))
-
-    // LOCAL STORAGE
-
-    
-
-
-
-
-
-
-
     createTable();
 
     rowColor();
     updatecolor();
     updateTime();
     
+
     $(".saveBtn").on("click", addEvent);
-    $("#test").on("click", storeEvents);
+    $(".saveBtn").on("click", storeEvents);
+
 // END DOCUMENT READY...
 });
